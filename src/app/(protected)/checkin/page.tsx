@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 type Status = "verifying" | "ready" | "submitting" | "success" | "already" | "error";
 
-function CheckinContent(): JSX.Element {
+function CheckinContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [status, setStatus] = useState<Status>("verifying");
@@ -114,7 +114,7 @@ function CheckinContent(): JSX.Element {
   );
 }
 
-export default function CheckinPage(): JSX.Element {
+export default function CheckinPage() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
       <CheckinContent />
