@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { Bike, CalendarCheck, TrendingUp, Clock } from "lucide-react";
+import LogoutButton from "@/components/logout-button";
 
 async function getSupabaseServerClient() {
   const cookieStore = await cookies();
@@ -151,6 +152,7 @@ export default async function DashboardPage() {
             )}
           </p>
         </div>
+        <LogoutButton />
       </div>
 
       {/* Stats cards */}
@@ -313,6 +315,7 @@ export default async function DashboardPage() {
             </table>
           </div>
         )}
+        
       </div>
     </div>
   );
