@@ -168,7 +168,7 @@ export default async function ReportsPage({
               </thead>
               <tbody className="divide-y divide-[#F3F1EA]">
                 {records.map((r) => {
-                  const u = r.users as { name: string; identifier: string } | null;
+                  const u = (Array.isArray(r.users) ? r.users[0] : r.users) as { name: string; identifier: string } | null;
                   return (
                     <tr key={r.id} className="hover:bg-[#FAFAF7] transition-colors">
                       <td className="px-5 py-2.5 font-medium text-[#1C1C1A]">{u?.name ?? "—"}</td>
