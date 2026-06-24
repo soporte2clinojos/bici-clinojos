@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
+export const dynamic = 'force-dynamic';
 
 type Status = "verifying" | "ready" | "submitting" | "success" | "already" | "error";
 
