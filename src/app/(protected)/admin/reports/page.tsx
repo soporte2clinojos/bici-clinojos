@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { Download, Filter, Bike } from "lucide-react";
+import Link from "next/link";
 
 async function getSupabaseServerClient() {
   const cookieStore = await cookies();
