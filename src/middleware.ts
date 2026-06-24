@@ -19,17 +19,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (path.startsWith("/admin") && user) {
-    const { data: profile } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profile?.role !== "admin") {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-  }
+  // ELIMINAMOS LA CONSULTA AL PERFIL AQUÍ
+  // El control de rol (admin vs user) debe hacerse en la página (page.tsx)
+  // o en un layout, no en el middleware.
 
   return response;
 }
