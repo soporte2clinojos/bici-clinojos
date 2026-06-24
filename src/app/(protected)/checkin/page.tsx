@@ -60,6 +60,26 @@ function CheckinContent() {
       return;
     }
 
+    const verifyRes = await fetch(
+  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/gate-token`,
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "verify",
+      token,
+    }),
+  }
+);
+
+const verifyData = await verifyRes.json();
+
+if (!verifyRes.ok || !verifyData.valid) {
+  setStatus("error");
+  setMessage("El código QR expiró. Escanea uno nuevo en portería.");
+  return;
+}
+
     const { error } = await supabase.from("attendance").insert({
       user_id: user.id,
       is_bike: true,

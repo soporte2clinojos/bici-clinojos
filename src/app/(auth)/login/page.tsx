@@ -69,10 +69,22 @@ export default function LoginPage() {
         .eq("id", data.session.user.id)
         .single();
 
-      const role = profile?.role;
-      if (role === "admin") router.push("/admin");
-      else if (role === "gatekeeper") router.push("/gatekeeper");
-      else router.push("/dashboard");
+      const redirectTo =
+      new URLSearchParams(window.location.search).get("redirectTo");
+
+      if (redirectTo) {
+        router.push(redirectTo);
+      } else {
+        const role = profile?.role;
+
+        if (role === "admin") {
+          router.push("/admin");
+        } else if (role === "gatekeeper") {
+          router.push("/gatekeeper");
+        } else {
+          router.push("/dashboard");
+        }
+      }
 
       router.refresh();
     } catch (err) {

@@ -18,16 +18,24 @@ export async function middleware(request: NextRequest) {
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({ name, value, ...options });
+
           response = NextResponse.next({
-            request: { headers: request.headers },
+            request: {
+              headers: request.headers,
+            },
           });
+
           response.cookies.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: "", ...options });
+
           response = NextResponse.next({
-            request: { headers: request.headers },
+            request: {
+              headers: request.headers,
+            },
           });
+
           response.cookies.set({ name, value: "", ...options });
         },
       },
@@ -38,15 +46,23 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protección de rutas
   const path = request.nextUrl.pathname;
+
   const isProtected =
     path.startsWith("/dashboard") ||
     path.startsWith("/checkin") ||
     path.startsWith("/admin");
 
   if (isProtected && !user) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const loginUrl = new URL("/login", request.url);
+
+    // Guarda la URL original completa
+    loginUrl.searchParams.set(
+      "redirectTo",
+      request.nextUrl.pathname + request.nextUrl.search,
+    );
+
+    return NextResponse.redirect(loginUrl);
   }
 
   return response;
